@@ -23,40 +23,58 @@ export default function AppBar() {
       setThemes(res.data);
     });
   }, []);
+  const socials = [
+    {
+      name: "GitHub",
+      url: "https://github.com/itsnova204",
+      icon: "fa-brands:github", // Font Awesome Brand icon via Iconify
+    },
+    {
+      name: "LinkedIn",
+      url: "https://www.linkedin.com/in/tiagosaleixo",
+      icon: "fa-brands:linkedin", // Font Awesome Brand icon via Iconify
+    },
+  ];
 
   return (
-    <nav class="flex justify-between items-center p-2">
-      <a href="/" class="text-xl font-bold flex items-center">
+    <nav class="flex justify-between items-center p-2 shadow bg-base-100/80 backdrop-blur-sm">
+      <a href="/" class="text-xl font-bold flex items-center gap-2 hover:text-primary transition-colors">
         <Icon
           icon="fa6-brands:dev"
+          class="w-6 h-6" 
           width="none"
           height="none"
         />
-        Portfolio
+        Tiago Aleixo
       </a>
-      <ul class="flex gap-2">
+      <ul class="flex gap-4 items-center">
+        {/* Map directly inside the UL to generate LIs */}
+        {socials.map((social) => (
+          <li key={social.name}> {/* Each social icon gets its own LI */}
+            <a
+              href={social.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={social.name}
+              class="btn btn-ghost btn-square text-xl" // Button styling
+            >
+              <Icon icon={social.icon} class="w-6 h-6" width="none" height="none" />
+            </a>
+          </li>
+        ))}
+
+        {/* CV Button LI */}
         <li>
           <a
-            class="btn btn-primary text-base-100"
-            href="/cv.pdf"
+            // Consider btn-sm for consistency if icons are small
+            class="btn btn-primary btn-sm text-base-100 flex items-center gap-1"
+            href="/tiagoaleixo-cv.pdf"
             download
           >
-            Download CV
+            {/* Optional Icon */}
+            {/* <Icon icon="mdi:download-outline" width="1.1em" height="1.1em" /> */}
+            <span>Download CV</span> {/* Keep text short */}
           </a>
-        </li>
-        <li>
-          <button
-            class="btn"
-            aria-label="change Theme"
-            onClick={() => toggleTheme(themes)}
-          >
-            <Icon
-              class="active:animate-spin"
-              icon="ri:dice-line"
-              width="none"
-              height="none"
-            />
-          </button>
         </li>
       </ul>
     </nav>
