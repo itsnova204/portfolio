@@ -1,175 +1,267 @@
+// src/islands/SpinningModel.tsx
 import { Component } from "preact";
 import * as THREE from "three";
-import { GLTFLoader, GLTF } from "three/addons/loaders/GLTFLoader.js"; // Correct GLTF import
+import { GLTFLoader, GLTF } from "three/addons/loaders/GLTFLoader.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
 class SpinningModel extends Component {
-  // Store references as class properties
   private mountPoint: HTMLDivElement | null = null;
   private renderer: THREE.WebGLRenderer | null = null;
   private camera: THREE.PerspectiveCamera | null = null;
+  private scene: THREE.Scene | null = null; // Keep scene reference for cleanup
   private controls: OrbitControls | null = null;
-  private animationFrameId: number | null = null; // To cancel animation frame
+  private animationFrameId: number | null = null;
+  private model: THREE.Object3D | undefined; // Keep model reference for cleanup
 
-  // Define your mobile breakpoint
   private mobileBreakpoint = 768;
 
-  // Handler function for resize events (use arrow function for correct 'this')
   private handleResize = () => {
     if (!this.mountPoint || !this.renderer || !this.camera || !this.controls) {
       return;
     }
 
-    const width = this.mountPoint.clientWidth;
-    const height = this.mountPoint.clientHeight;
+    // Use parent's dimensions for reliability, fallback to window
+    const parent = this.mountPoint.parentElement;
+    const width = parent ? parent.clientWidth : window.innerWidth;
+    // Ensure a minimum height or use aspect ratio if width is available
+    const desiredWidth = Math.min(width * 0.8, 400); // Example: Limit max width
+    const height = desiredWidth; // Maintain aspect ratio 1:1
 
-    // Update renderer and camera
-    this.renderer.setSize(width, height);
-    this.camera.aspect = width / height;
+
+    // Check if mountPoint itself has dimensions, otherwise size might be 0
+    if (this.mountPoint.clientWidth > 0 && this.mountPoint.clientHeight > 0) {
+        this.renderer.setSize(this.mountPoint.clientWidth, this.mountPoint.clientHeight);
+        this.camera.aspect = this.mountPoint.clientWidth / this.mountPoint.clientHeight;
+    } else {
+         // Fallback or initial sizing if mountPoint isn't laid out yet
+         // This might need adjustment based on your layout
+         this.renderer.setSize(desiredWidth, height);
+         this.camera.aspect = desiredWidth / height;
+    }
+
+
     this.camera.updateProjectionMatrix();
 
-    // Check screen width and disable/enable controls
     const isMobile = window.innerWidth < this.mobileBreakpoint;
-    this.controls.enabled = !isMobile; // Disable on mobile, enable otherwise
+    this.controls.enabled = !isMobile; // Disable manual interaction on mobile
 
-    // Optional: You might want to adjust autoRotateSpeed or dampingFactor on mobile
+    // Optional: Adjust autoRotateSpeed on mobile if desired
     // if (isMobile) {
-    //   this.controls.autoRotateSpeed = 1.0; // Slower rotation maybe?
+    //   this.controls.autoRotateSpeed = 1.0;
     // } else {
-    //   this.controls.autoRotateSpeed = 2.0; // Default or faster
+    //   this.controls.autoRotateSpeed = 2.0;
     // }
   };
 
   componentDidMount() {
-    this.mountPoint = document.getElementById("model-container") as HTMLDivElement;
+    // Use ref callback from render method instead of getElementById
     if (!this.mountPoint) {
-      console.error("Mount point 'model-container' not found.");
-      return;
+      console.error("Mount point ref is not set.");
+      return; // Exit if mountPoint isn't available yet
     }
 
+    // --- Initialization ---
     const loadingManager = new THREE.LoadingManager();
+    const loadingOverlay = document.getElementById("loading-overlay"); // Get overlay ref
     loadingManager.onLoad = () => {
-      document.getElementById("loading-overlay")?.remove();
+      loadingOverlay?.remove(); // Remove overlay on load
+    };
+    loadingManager.onError = (url) => {
+        console.error(`Error loading ${url}`);
+        if (loadingOverlay) {
+            loadingOverlay.textContent = "Error loading model.";
+            loadingOverlay.classList.remove("animate-pulse");
+        }
     };
 
+
+    // Use mount point's actual size after layout
     const dimensions = {
-      x: this.mountPoint.clientWidth || 0,
-      y: this.mountPoint.clientHeight || 0,
+       // Wait for layout or use initial estimate
+       x: this.mountPoint.clientWidth || 400, // Default width if 0
+       y: this.mountPoint.clientHeight || 400, // Default height if 0
     };
 
-    const scene = new THREE.Scene();
-    this.camera = new THREE.PerspectiveCamera( // Assign to class property
+
+    this.scene = new THREE.Scene(); // Assign to class property
+    this.camera = new THREE.PerspectiveCamera(
       75,
       dimensions.x / dimensions.y,
       0.1,
       1000,
     );
-    this.renderer = new THREE.WebGLRenderer({ alpha: true }); // Assign to class property
-    this.controls = new OrbitControls(this.camera, this.renderer.domElement); // Assign to class property
+    this.renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true }); // Enable antialiasing
+    this.renderer.setPixelRatio(window.devicePixelRatio);
+    this.renderer.setSize(dimensions.x, dimensions.y);
+    this.mountPoint.appendChild(this.renderer.domElement); // Append renderer here
 
+    this.controls = new OrbitControls(this.camera, this.renderer.domElement);
     this.controls.enableDamping = true;
     this.controls.autoRotate = true;
-    // Optional: Adjust rotation speed if needed
-    // this.controls.autoRotateSpeed = 2.0;
+    //this.controls.autoRotateSpeed = 1.0; // Slightly slower rotation?
 
-    this.renderer.setSize(dimensions.x, dimensions.y);
-    this.renderer.setPixelRatio(window.devicePixelRatio); // Improve sharpness on high DPI screens
-    this.mountPoint.appendChild(this.renderer.domElement);
-
+    // --- Model Loading ---
     const loader = new GLTFLoader(loadingManager);
-    let model: THREE.Object3D | undefined;
-
     loader.load(
-      "../scene.gltf", // replace with the path to your model
-      (gltf: GLTF) => { // Use imported GLTF type
-        model = gltf.scene;
-        scene.add(model);
+      "./scene.gltf", // Assuming scene.gltf is in the public directory
+      (gltf: GLTF) => {
+        this.model = gltf.scene; // Store model reference
+        if (!this.scene || !this.camera || !this.renderer || !this.controls) return; // Type guard
 
-        // --- Model positioning (keep as is) ---
-        model.rotation.y = -1.5;
-        model.rotation.x = 0.25;
-        const box = new THREE.Box3().setFromObject(model);
+        this.scene.add(this.model);
+
+        // Center and scale model
+        const box = new THREE.Box3().setFromObject(this.model);
         const center = new THREE.Vector3();
         box.getCenter(center);
-        model.position.sub(center);
-        const scale = 1.3;
-        model.scale.set(scale, scale, scale);
-        // --- End Model positioning ---
+        this.model.position.sub(center); // Center the model origin
+        const size = new THREE.Vector3();
+        box.getSize(size);
+        const maxDim = Math.max(size.x, size.y, size.z);
+        const scale = 0.5 / maxDim; // Scale model to fit roughly in a 1-unit box initially
+        this.model.scale.set(scale, scale, scale);
 
-        const animate = () => {
-          this.animationFrameId = requestAnimationFrame(animate); // Store frame ID
+        // Adjust camera position based on scaled model size
+        this.camera.position.z = maxDim * scale * 1.3; // Position camera further back based on size
+         this.controls.update(); // Important after changing camera position
 
-          if (this.controls && this.renderer && this.camera) { // Check if instances exist
-            this.controls.update();
-            this.renderer.render(scene, this.camera);
-          }
-        };
-
-        // Start animation only after model is loaded
-        animate();
+        // Start animation loop
+        this.animate();
       },
-      undefined, // Progress callback (optional)
-      (error: ErrorEvent) => { // Error type might be ErrorEvent or just Error
-        console.error("An error occurred loading the GLTF model:", error);
+      undefined,
+      (error: ErrorEvent | Error) => { // Handle both error types
+         console.error("An error occurred loading the GLTF model:", error);
+         if (loadingOverlay) {
+             loadingOverlay.textContent = "Error loading model.";
+             loadingOverlay.classList.remove("animate-pulse");
+         }
       },
     );
 
-    const light = new THREE.AmbientLight(0xffffff, 3); // Adjusted intensity (was 75 - seems high)
-    scene.add(light);
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 2); // Add directional light for better shading
-    directionalLight.position.set(5, 10, 7.5);
-    scene.add(directionalLight);
+    // --- Lighting ---
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.5);
+    this.scene.add(ambientLight);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 2);
+    directionalLight.position.set(2, 5, 3).normalize();
+    this.scene.add(directionalLight);
 
 
-    this.camera.position.z = 0.65;
+    // --- Initial Setup & Listeners ---
     this.controls.update();
-
-    // Initial check for mobile and add resize listener
-    this.handleResize(); // Call once initially to set controls and size
+    this.handleResize(); // Call initially to set size and controls state
     window.addEventListener('resize', this.handleResize);
   }
 
+   animate = () => { // Use arrow function to bind 'this'
+      this.animationFrameId = requestAnimationFrame(this.animate);
+
+      // Type guards
+      if (this.controls && this.renderer && this.scene && this.camera) {
+        this.controls.update(); // Updates controls (damping, auto-rotate)
+        this.renderer.render(this.scene, this.camera);
+      }
+    };
+
+
   componentWillUnmount() {
-    // Clean up: Remove listener, cancel animation, dispose resources
     window.removeEventListener('resize', this.handleResize);
 
     if (this.animationFrameId) {
       cancelAnimationFrame(this.animationFrameId);
     }
 
-    this.controls?.dispose(); // Dispose controls
-    this.renderer?.dispose(); // Dispose renderer
-    // Consider disposing scene, geometry, materials if necessary to free up GPU memory
+    // Dispose Three.js resources
+    this.controls?.dispose();
+    this.renderer?.dispose();
+
+    // Dispose materials and geometries in the scene (important for memory)
+    this.scene?.traverse((object) => {
+         if (object instanceof THREE.Mesh) {
+             if (object.geometry) {
+                 object.geometry.dispose();
+             }
+             if (Array.isArray(object.material)) {
+                  object.material.forEach(material => material.dispose());
+             } else if (object.material) {
+                  object.material.dispose();
+             }
+         }
+    });
+
+    // Remove model from scene if it exists
+     if(this.model && this.scene) {
+         this.scene.remove(this.model);
+     }
+
 
     // Remove canvas from DOM
     if (this.mountPoint && this.renderer) {
-        this.mountPoint.removeChild(this.renderer.domElement);
+        // Check if the renderer's DOM element is still a child before removing
+        if (this.mountPoint.contains(this.renderer.domElement)) {
+             this.mountPoint.removeChild(this.renderer.domElement);
+        }
     }
+
+    // Clear references
+    this.mountPoint = null;
+    this.renderer = null;
+    this.camera = null;
+    this.controls = null;
+    this.scene = null;
+    this.model = undefined;
   }
 
-  
   render() {
-    // Define the style based on whether controls are potentially disabled
-    // Although, applying pan-y generally won't hurt desktop either.
+    // Apply touch-action CSS directly to the container div
+    // pan-y allows vertical scrolling initiated on this element.
+    // pan-x would allow horizontal scrolling (if the page scrolls horizontally).
+    // 'auto' lets the browser decide based on the gesture (might interfere more).
     const containerStyle = {
-      touchAction: 'auto', // Allow vertical scrolling initiated on this element
-      // Or use 'auto' if you need default browser handling for pinch-zoom too
-      // touchAction: 'auto',
-    };
+      touchAction: 'pan-y', // Allow vertical scroll gestures
+      width: '100%',        // Make container take available width
+      height: '100%',       // Make container take available height
+      maxWidth: '400px',    // Max width for the model viewer
+      aspectRatio: '1 / 1', // Maintain square aspect ratio
+      position: 'relative', // Needed for absolute positioning of overlay
+      overflow: 'hidden', // Hide anything spilling out of the container (like canvas resizing issues)
+      cursor: 'grab'       // Indicate interactivity (even if disabled on mobile)
+    } as const; // Use 'as const' for stricter style typing if using TSX strict mode
+
+    const loadingOverlayStyle = {
+         position: 'absolute',
+         inset: '0',
+         // Example using RGBA for background
+         backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent black
+         // backdropFilter: 'blur(4px)', // Optional blur effect
+         display: 'flex',
+         justifyContent: 'center',
+         alignItems: 'center',
+         zIndex: '10', // Ensure it's above the canvas
+         color: 'white',
+         borderRadius: '0.5rem', // Match container rounding if any
+         // Add animation classes if needed, e.g., from Tailwind
+         // className: "animate-pulse" // Handled by class below
+     } as const;
+
+
     return (
-      <div class="relative w-[400px] aspect-square">
+      // Container div controls the size and holds the canvas and overlay
+      <div style={containerStyle}>
+        {/* Loading Overlay */}
         <div
           id="loading-overlay"
-          class="absolute inset-0 bg-[rgba(0,0,0,0.3)] backdrop-blur-sm animate-pulse rounded-lg flex justify-center items-center z-10 text-white"
+          style={loadingOverlayStyle}
+          // Use Tailwind classes alongside style if preferred for some things
+          class="animate-pulse"
         >
           <span>Loading 3D Model...</span>
         </div>
+        {/* Mount point for the Three.js Canvas */}
+        {/* The ref assigns the DOM element to this.mountPoint when rendered */}
         <div
           id="model-container"
-          class="w-full h-full"
-          // Apply the style here
-          style={containerStyle}
-          ref={(el) => { if(el) this.mountPoint = el; }}
+          style={{ width: '100%', height: '100%' }} // Ensure inner div fills the styled outer div
+          ref={(el) => { if (el) this.mountPoint = el; }}
         />
       </div>
     );
