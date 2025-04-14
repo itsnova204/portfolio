@@ -50,9 +50,9 @@ function Hero() {
         <h1 class="text-4xl font-bold text-primary">
           <TypingAnimation
             strings={[
-              "Hi, I'm Tiago Aleixo.",
+              "Hi, I'm Tiago!",
               "Network & Systems Engineer.",
-              "Passionate Learner.",
+              "Lets make the world better.",
             ]}
             autoStart={true}
             loop={true}
