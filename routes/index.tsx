@@ -488,14 +488,14 @@ export default function Home() {
   return (
     <>
       <Hero />
-      { 
-      <Values /> /*Optional: Decide if Values section adds enough specific value */}
-      <Education />      {/* Added Education */}
-      <Experience />
+      
       <Projects />
-      <StudentGroups />  {/* Added Student Groups */}
-      <Volunteering />   {/* Added Volunteering */}
       <Technologies />
+      <Experience />
+      <Education />      {/* Added Education */}
+      <StudentGroups />  {/* Added Student Groups */}
+      <Values />
+      <Volunteering />   {/* Added Volunteering */}
     </>
   );
 }
