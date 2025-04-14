@@ -45,12 +45,10 @@ loadIcons([
 // --- Hero Component (No Change) ---
 function Hero() {
   return (
-    <section class="p-4 flex justify-evenly items-center flex-wrap gap-8"> {/* Added gap */}
-      {/* Text content */}
-      <div class="max-w-lg mt-8 flex-1 min-w-[300px]"> {/* Added flex properties */}
+    <section class="p-4 flex justify-evenly items-center flex-wrap">
+      <div class="max-w-lg mt-8">
         <h1 class="text-4xl font-bold text-primary">
           <TypingAnimation
-            client:visible
             strings={[
               "Hi, I'm Tiago!",
               "Network & Systems Engineer.",
@@ -63,14 +61,9 @@ function Hero() {
         <p class="text-xl mt-4">
           Driven by a love for learning how systems work, currently pursuing a Master's in Network and Information Systems Engineering and CCNA. Interested in C/C++, Linux, Cisco IOS, and building resilient network infrastructures.
         </p>
+         {/* Optional: Add GitHub/LinkedIn links here if desired */}
       </div>
-
-      {/* --- Render SpinningModel unconditionally --- */}
-      {/* Let SpinningModel handle its own mobile adaptations */}
-      <div class="flex-shrink-0"> {/* Prevent model container from shrinking too much */}
-         <SpinningModel client:visible />
-      </div>
-      {/* --- End Unconditional Rendering --- */}
+      <SpinningModel />
     </section>
   );
 }
