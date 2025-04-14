@@ -152,7 +152,7 @@ class SpinningModel extends Component {
     // Define the style based on whether controls are potentially disabled
     // Although, applying pan-y generally won't hurt desktop either.
     const containerStyle = {
-      touchAction: 'pan-y', // Allow vertical scrolling initiated on this element
+      touchAction: 'auto', // Allow vertical scrolling initiated on this element
       // Or use 'auto' if you need default browser handling for pinch-zoom too
       // touchAction: 'auto',
     };
