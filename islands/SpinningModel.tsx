@@ -147,19 +147,29 @@ class SpinningModel extends Component {
     }
   }
 
+  
   render() {
+    // Define the style based on whether controls are potentially disabled
+    // Although, applying pan-y generally won't hurt desktop either.
+    const containerStyle = {
+      touchAction: 'pan-y', // Allow vertical scrolling initiated on this element
+      // Or use 'auto' if you need default browser handling for pinch-zoom too
+      // touchAction: 'auto',
+    };
     return (
       <div class="relative w-[400px] aspect-square">
         <div
           id="loading-overlay"
-          class="absolute inset-0 bg-[rgba(0,0,0,0.3)] backdrop-blur-sm animate-pulse rounded-lg flex justify-center items-center z-10 text-white" // Adjusted styling
+          class="absolute inset-0 bg-[rgba(0,0,0,0.3)] backdrop-blur-sm animate-pulse rounded-lg flex justify-center items-center z-10 text-white"
         >
-          <span>Loading 3D Model...</span> {/* Improved text */}
+          <span>Loading 3D Model...</span>
         </div>
         <div
           id="model-container"
-          class="w-full h-full" // Ensure this takes up the parent's space
-          ref={(el) => { if(el) this.mountPoint = el; }} // Alternative way to get mount point ref in Preact
+          class="w-full h-full"
+          // Apply the style here
+          style={containerStyle}
+          ref={(el) => { if(el) this.mountPoint = el; }}
         />
       </div>
     );
