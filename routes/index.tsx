@@ -136,7 +136,7 @@ function Values() {
       title: "Nintendo NES Emulator",
       description:
         "Software clone of the iconic NES console in C. Supports real controllers via custom device drivers on Minix3. Video Demo: youtu.be/zcQ03VqHWBw",
-      link: "tiagoaleixo.dev/projects/nes_emulator",
+      link: "projects/nes_emulator",
       type: "Personal Project",
       icon: "mdi:gamepad-variant",
     },
