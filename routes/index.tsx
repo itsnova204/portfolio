@@ -52,18 +52,23 @@ function Hero() {
             strings={[
               "Hi, I'm Tiago!",
               "Network & Systems Engineer.",
-              "Lets make the world better.",
+              "Lets make the world a better place.",
             ]}
             autoStart={true}
             loop={true}
           />
         </h1>
         <p class="text-xl mt-4">
-          Driven by a love for learning how systems work, currently pursuing a Master's in Network and Information Systems Engineering and CCNA. Interested in C/C++, Linux, Cisco IOS, and building resilient network infrastructures.
+          Driven by a love for learning how systems work, currently pursuing a Master's in Network and Information Systems Engineering and a CCNA (Cisco Certified Network Associate). 
+        </p>
+        <p class="text-xl mt-4">
+          Passionate about building fast and resilient network infrastructure using C/C++, Linux and Cisco IOS.
         </p>
          {/* Optional: Add GitHub/LinkedIn links here if desired */}
       </div>
-      <SpinningModel />
+      <div className="hidden md:block">
+        <SpinningModel />
+      </div>
     </section>
   );
 }
@@ -485,6 +490,23 @@ function Technologies() {
 
 // --- Main Home Component ---
 export default function Home() {
+  //if mobile
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+
+  //if mobile, remove the hero
+  if (isMobile) {
+    return (
+      <>
+        <Projects />
+        <Technologies />
+        <Experience />
+        <Education />      {/* Added Education */}
+        <StudentGroups />  {/* Added Student Groups */}
+        {/*<Values />*/}
+        <Volunteering />   {/* Added Volunteering */}
+      </>
+    );
+  }
   return (
     <>
       <Hero />
@@ -494,7 +516,7 @@ export default function Home() {
       <Experience />
       <Education />      {/* Added Education */}
       <StudentGroups />  {/* Added Student Groups */}
-      <Values />
+      {/*<Values />*/}
       <Volunteering />   {/* Added Volunteering */}
     </>
   );
