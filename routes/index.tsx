@@ -1,4 +1,5 @@
 import SpinningModel from "../islands/SpinningModel.tsx";
+import Projects from "../islands/Projects.tsx";
 import TypingAnimation from "../islands/TypingAnimation.tsx";
 import { Icon, loadIcons } from "@iconify-icon/react";
 import Wave from "../components/Wave.tsx";
@@ -130,21 +131,12 @@ function Values() {
   );
 }
 
-// --- Projects Component (No Change) ---
-interface Project {
-  title: string;
-  description: string;
-  link: string;
-  type: string;
-  icon: string;
-}
-function Projects() {
   const projects: Project[] = [
     {
       title: "Nintendo NES Emulator",
       description:
         "Software clone of the iconic NES console in C. Supports real controllers via custom device drivers on Minix3. Video Demo: youtu.be/zcQ03VqHWBw",
-      link: "https://github.com/itsnova204/NES_Emulator-LCOM",
+      link: "tiagoaleixo.dev/projects/nes_emulator",
       type: "Personal Project",
       icon: "mdi:gamepad-variant",
     },
@@ -161,45 +153,11 @@ function Projects() {
       description:
         "A fun game tasking players to sort colored birds, featuring various AI algorithms to assist.",
       link: "https://github.com/itsnova204/OwlSort-AI",
-      type: "Personal Project",
+      type: "Academic Project",
       icon: "mdi:brain",
     },
   ];
-  return (
-    <section class="p-4 my-8">
-      <h1 class="text-3xl font-bold text-primary text-center mb-4">
-        Software Projects
-      </h1>
-      <div class="flex flex-wrap justify-center items-stretch gap-4">
-        {projects.map((project) => (
-          <div class="card max-w-sm bg-base-100 shadow-md" key={project.title}>
-            <div class="card-body p-4 flex flex-col">
-              <h2 class="card-title">
-                <Icon
-                  class="w-6 h-6 flex-shrink-0"
-                  icon={project.icon}
-                  width="none"
-                  height="none"
-                />
-                {project.title}
-                <span class="badge badge-ghost badge-sm ml-auto">{project.type}</span>
-              </h2>
-              <p class="text-sm flex-grow mt-1">{project.description}</p>
-              <a
-                href={project.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="btn btn-primary btn-sm text-base-100 mt-4"
-              >
-                View Project
-              </a>
-            </div>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
+
 
 // --- Experience Component (No Change) ---
 interface ExperienceEntry {
@@ -490,28 +448,11 @@ function Technologies() {
 
 // --- Main Home Component ---
 export default function Home() {
-  //if mobile
-  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
-
-  //if mobile, remove the hero
-  if (isMobile) {
-    return (
-      <>
-        <Projects />
-        <Technologies />
-        <Experience />
-        <Education />      {/* Added Education */}
-        <StudentGroups />  {/* Added Student Groups */}
-        {/*<Values />*/}
-        <Volunteering />   {/* Added Volunteering */}
-      </>
-    );
-  }
   return (
     <>
       <Hero />
       
-      <Projects />
+      <Projects projects={projects} />
       <Technologies />
       <Experience />
       <Education />      {/* Added Education */}

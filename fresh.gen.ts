@@ -7,7 +7,9 @@ import * as $_app from "./routes/_app.tsx";
 import * as $api_joke from "./routes/api/joke.ts";
 import * as $api_themes_index from "./routes/api/themes/index.ts";
 import * as $index from "./routes/index.tsx";
+import * as $projects_nes_emulator from "./routes/projects/nes_emulator.tsx";
 import * as $AppBar from "./islands/AppBar.tsx";
+import * as $Projects from "./islands/Projects.tsx";
 import * as $SpinningModel from "./islands/SpinningModel.tsx";
 import * as $TypingAnimation from "./islands/TypingAnimation.tsx";
 import { type Manifest } from "$fresh/server.ts";
@@ -19,9 +21,11 @@ const manifest = {
     "./routes/api/joke.ts": $api_joke,
     "./routes/api/themes/index.ts": $api_themes_index,
     "./routes/index.tsx": $index,
+    "./routes/projects/nes_emulator.tsx": $projects_nes_emulator,
   },
   islands: {
     "./islands/AppBar.tsx": $AppBar,
+    "./islands/Projects.tsx": $Projects,
     "./islands/SpinningModel.tsx": $SpinningModel,
     "./islands/TypingAnimation.tsx": $TypingAnimation,
   },
