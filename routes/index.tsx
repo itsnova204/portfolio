@@ -311,7 +311,7 @@ function StudentGroups() {
       organization: "Institute of Electrical and Electronics Engineers - UP Student Branch",
       role: "Member",
       timePeriod: "Mar 2025 - Ongoing",
-      description: "Currently leading the development of a scalable server cluster and secure network infrastructure using Proxmox and Linux routing to host internal services, improving team collaboration and resource efficiency. Also presented a workshop on C programming fundamentals to members.",
+      description: "Currently leading the development of a scalable server cluster and secure network infrastructure using Proxmox and Linux routing to host internal services, improving team collaboration and resource efficiency. Also presented a workshop on C programming fundamentals to the public.",
       iconUrl: "/img/groups/ieee_icon.jpg",
     },
     {
