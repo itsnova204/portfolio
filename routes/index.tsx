@@ -312,18 +312,21 @@ function StudentGroups() {
       role: "Member",
       timePeriod: "Mar 2025 - Ongoing",
       description: "Currently leading the development a scalable server cluster and secure network infrastructure using Proxmox and Linux routing to host internal services, improving team collaboration and resource efficiency.",
+      iconUrl: "/img/groups/ieee_icon.jpg", // Example: Path to your custom PNG
     },
     {
       groupName: "Nucleus of Computer Graphics and Multimedia",
       role: "Member",
       timePeriod: "Sep 2023 - Oct 2024",
       description: "Participated in organizing events, workshops, and collaborative projects focused on enhancing students' understanding of visual computing and interactive media.",
+      iconUrl: "/img/groups/ncgm_icon.jpg", // Example: Path to another custom PNG
     },
     {
       groupName: "Nucleus of Computer Science",
       role: "Member",
       timePeriod: "Mar 2021 - Dec 2022",
       description: "Participated in organizing events, workshops, and collaborative projects focused on increasing students' excitement in computer science related topics.",
+      iconUrl: "/img/groups/nucc_icon.jpg", 
     },
     {
       groupName: "Club of Informatics",
@@ -331,31 +334,41 @@ function StudentGroups() {
       timePeriod: "Apr 2016 - May 2019",
       description: "Led a Highschool club focused on bringing students excited about computer science and electronic engineering together to create events and participate in competitions.",
       award: "3rd Place at the national engineering competition Ilídio Pinho Foundation “Ciência na escola” award.",
+      iconUrl: "/img/groups/cdi_icon.png",
     },
   ];
 
   return (
-    <section class="p-4 my-8 bg-base-200 py-8"> {/* Added background and padding */}
+    <section class="p-4 my-8 bg-base-200 py-8">
       <h1 class="text-3xl font-bold text-primary text-center mb-6">
         Student Groups & Activities
       </h1>
-      <div class="flex flex-col gap-4 max-w-3xl mx-auto"> {/* Centered content */}
+      <div class="flex flex-col gap-4 max-w-3xl mx-auto">
         {groupsData.map((group, index) => (
-           <div class="card card-compact bg-base-100 shadow" key={index}> {/* Compact card */}
+           <div class="card card-compact bg-base-100 shadow" key={index}>
              <div class="card-body p-4">
-               <h2 class="card-title text-md font-semibold">
-                 <Icon icon="mdi:account-group" class="w-5 h-5 mr-1 text-primary" />
-                 {group.groupName} {group.organization && <span class="text-sm font-normal text-gray-500">{group.organization}</span>}
+               <h2 class="card-title text-md font-semibold flex items-center"> {/* Added flex items-center for alignment */}
+                 {group.iconUrl ? (
+                   <img
+                     src={group.iconUrl}
+                     alt={`${group.groupName} logo`}
+                     class="w-10 h-10 mr-1 object-contain" // Matched size, added object-contain for aspect ratio
+                   />
+                 ) : (
+                   <Icon icon="mdi:account-group" class="w-5 h-5 mr-1 text-primary shrink-0" /> // Added shrink-0
+                 )}
+                 <span>{group.groupName}</span> {/* Wrapped text in span for better flex control */}
+                 {group.organization && <span class="text-sm font-normal text-gray-500 ml-1">{group.organization}</span>}
                  <span class="badge badge-outline badge-sm ml-auto">{group.role}</span>
                </h2>
-               <span class="flex items-center gap-2 text-gray-600 text-xs mt-1"> {/* Smaller time text */}
+               <span class="flex items-center gap-2 text-gray-600 text-xs mt-1">
                  <Icon icon="tabler:calendar-filled" width="0.8em" height="0.8em" />
                  {group.timePeriod}
                </span>
                <p class="text-sm mt-2">{group.description}</p>
                {group.award && (
                  <div class="mt-2 flex items-center gap-2 text-sm text-amber-400 font-medium">
-                    <Icon icon="mdi:trophy-award" class="w-4 h-4" /> {/* Icon should inherit the color */}
+                    <Icon icon="mdi:trophy-award" class="w-4 h-4" />
                     <span>{group.award}</span>
                  </div>
                )}
