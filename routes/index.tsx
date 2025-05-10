@@ -141,6 +141,14 @@ function Values() {
       icon: "mdi:gamepad-variant",
     },
     {
+    title: "Real-Time Energy Monitor",
+    description:
+      "IoT system using ESP8266 & PZEM-004T to monitor energy usage, with data stored in PostgreSQL and visualized in Grafana via a Dockerized backend.",
+    link: "projects/power_monitor", 
+    type: "Personal Project",
+    icon: "fa6-solid:plug-circle-bolt",
+    },
+    {
       title: "AuctionPeer",
       description:
         "A fully functional, deployment-ready auction website built using Laravel and PostgreSQL.",
@@ -413,17 +421,37 @@ function Technologies() {
     "devicon:haskell", "logos:python", "logos:bash-icon", "logos:git-icon", "devicon:linux",
     "logos:microsoft-azure", "mdi:pipe", "simple-icons:cisco", "mdi:router-network",
     "mdi:firewall", "logos:angular-icon", "logos:spring-icon", "logos:postgresql",
-    "skill-icons:docker", "devicon:devops",
+    "skill-icons:docker", "simple-icons:espressif", "devicon:arduino",
+    "simple-icons:flask", "simple-icons:grafana",   "devicon:json", "mdi:serial-port", 
+    "simple-icons:platformio"
   ];
   const techTooltips: { [key: string]: string } = {
-    "devicon:c": "C", "devicon:cplusplus": "C++", "logos:java": "Java",
-    "logos:javascript": "JavaScript", "logos:php": "PHP", "devicon:haskell": "Haskell",
-    "logos:python": "Python", "logos:bash-icon": "Bash", "logos:git-icon": "Git",
-    "devicon:linux": "Linux", "logos:microsoft-azure": "Microsoft Azure",
-    "mdi:pipe": "CI/CD Pipelines", "simple-icons:cisco": "Cisco IOS",
-    "mdi:router-network": "Networking & Routing (OSPF, VLAN)", "mdi:firewall": "Firewalls",
-    "logos:angular-icon": "Angular", "logos:spring-icon": "Java Spring Boot",
-    "logos:postgresql": "PostgreSQL", "skill-icons:docker": "Docker", "devicon:devops": "DevOps",
+  "devicon:c": "C",
+  "devicon:cplusplus": "C++",
+  "logos:java": "Java",
+  "logos:javascript": "JavaScript",
+  "logos:php": "PHP",
+  "devicon:haskell": "Haskell",
+  "logos:python": "Python",
+  "logos:bash-icon": "Bash",
+  "logos:git-icon": "Git",
+  "devicon:linux": "Linux",
+  "logos:microsoft-azure": "Microsoft Azure",
+  "mdi:pipe": "CI/CD Pipelines",
+  "simple-icons:cisco": "Cisco IOS",
+  "mdi:router-network": "Networking & Routing (OSPF, VLAN)",
+  "mdi:firewall": "Firewalls",
+  "logos:angular-icon": "Angular",
+  "logos:spring-icon": "Java Spring Boot",
+  "logos:postgresql": "PostgreSQL",
+  "skill-icons:docker": "Docker & Docker Compose",
+  "simple-icons:espressif": "ESP8266 Microcontroller",
+  "devicon:arduino": "Arduino Framework",
+  "simple-icons:flask": "Flask (Python Web Framework)",
+  "simple-icons:grafana": "Grafana (Data Visualization)",
+  "devicon:json": "JSON (Data Format)",
+  "mdi:serial-port": "Serial Communication / Modbus",
+  "simple-icons:platformio": "PlatformIO (Embedded Dev Environment)"
   };
   return (
     <section class="my-16">
