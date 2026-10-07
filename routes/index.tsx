@@ -2,70 +2,71 @@ import SpinningModel from "../islands/SpinningModel.tsx";
 import Projects from "../islands/Projects.tsx";
 import TypingAnimation from "../islands/TypingAnimation.tsx";
 import { Icon, loadIcons } from "@iconify-icon/react";
-import Wave from "../components/Wave.tsx";
 
-// preload icons based on CV + common web tech + new sections
 loadIcons([
   "majesticons:suitcase",
   "tabler:calendar-filled",
   "carbon:location-filled",
-  "logos:html-5",
-  "logos:css-3",
-  "logos:javascript",
-  "logos:typescript-icon",
-  "skill-icons:react-dark",
-  "logos:angular-icon",
   "logos:java",
   "logos:spring-icon",
-  "logos:php",
   "devicon:c",
   "devicon:cplusplus",
-  "devicon:haskell",
   "logos:python",
   "logos:bash-icon",
-  "logos:git-icon",
   "devicon:linux",
-  "logos:microsoft-azure",
-  "mdi:pipe", // CI/CD
-  "simple-icons:cisco", // Cisco
-  "mdi:router-network", // Networking
-  "mdi:firewall", // Firewalls
   "logos:postgresql",
   "skill-icons:docker",
-  "mdi:brain", // AI
-  "mdi:gamepad-variant", // Gaming/Emulator
-  "skill-icons:laravel-dark",
-  "devicon:devops",
-  "mdi:school", // Education Icon
-  "mdi:account-group", // Student Group Icon
-  "mdi:heart-outline", // Volunteering Icon
-  "mdi:trophy-award", // Award Icon
-  "fa6-solid:graduation-cap", // Alt Education Icon
+  "mdi:kubernetes",
+  "mdi:terraform",
+  "mdi:bluetooth",
+  "mdi:chip",
+  "mdi:network",
+  "mdi:shield-check",
+  "mdi:code-braces",
+  "mdi:server-network",
+  "mdi:gamepad-variant",
+  "fa6-solid:graduation-cap",
+  "mdi:account-group",
 ]);
 
-// --- Hero Component (No Change) ---
+interface Project {
+  title: string;
+  description: string;
+  link: string;
+  type: string;
+  icon: string;
+}
+
 function Hero() {
   return (
-    <section class="p-4 flex justify-evenly items-center flex-wrap">
-      <div class="max-w-lg mt-8">
-        <h1 class="text-4xl font-bold text-primary">
+    <section class="p-4 py-12 flex justify-between items-center gap-10 flex-wrap">
+      <div class="max-w-2xl mt-8">
+        <p class="text-sm uppercase tracking-[0.3em] text-primary font-semibold mb-4">
+          Porto, Portugal · Systems & infrastructure
+        </p>
+        <h1 class="text-5xl md:text-6xl font-bold leading-tight">
           <TypingAnimation
             strings={[
-              "Hi, I'm Tiago!",
-              "Network & Systems Engineer.",
-              "Lets make the world a better place.",
+              "Hi, I'm Tiago.",
+              "Systems engineer.",
+              "Embedded systems builder.",
             ]}
-            autoStart={true}
-            loop={true}
+            autoStart
+            loop
           />
         </h1>
-        <p class="text-xl mt-4">
-          Driven by a love for learning how systems work, currently pursuing a Master's in Network and Information Systems Engineering and a CCNA (Cisco Certified Network Associate). 
+        <p class="text-xl mt-6 leading-relaxed">
+          I build reliable software and infrastructure at the boundary between
+          embedded devices, distributed systems, and networks. Currently
+          pursuing an MSc in Network & Information Systems Engineering at the
+          University of Porto.
         </p>
-        <p class="text-xl mt-4">
-          Passionate about building fast and resilient network infrastructure using C/C++, Linux and Cisco IOS.
-        </p>
-         {/* Optional: Add GitHub/LinkedIn links here if desired */}
+        <div class="flex flex-wrap gap-3 mt-7">
+          <a class="btn btn-primary" href="#experience">View experience</a>
+          <a class="btn btn-outline" href="/tiagoaleixo-cv.pdf" download>
+            Download CV
+          </a>
+        </div>
       </div>
       <div className="hidden md:block">
         <SpinningModel />
@@ -74,100 +75,33 @@ function Hero() {
   );
 }
 
-// --- Values Component (No Change) ---
-interface Value {
-  title: string;
-  description: string;
-  image: string;
-}
-function Values() {
-  const values: Value[] = [
-    {
-      title: "Passion for Continuous Learning",
-      description:
-        "I actively seek out new technologies and stay up-to-date, especially in networking and systems.",
-      image: "/img/pexels-pixabay-159711.webp",
-    },
-    {
-      title: "Problem Solving Focus",
-      description:
-        "My goal is to build robust and efficient systems that solve complex technical challenges.",
-      image: "/img/pexels-picjumbo-com-55570-196644.webp",
-    },
-    {
-      title: "Collaboration and Communication",
-      description:
-        "I excel in team environments, contributing to shared goals and communicating effectively.",
-      image: "/img/pexels-fauxels-3184418.webp",
-    },
-  ];
-  return (
-    <>
-      <Wave flip={false} />
-      <section class="p-4 flex justify-center items-center gap-4 flex-wrap bg-primary">
-        {values.map((value, i) => (
-          <div
-            key={i}
-            class={"card md:h-auto md:max-w-64 bg-base-100 flex-row md:flex-col shadow-lg" +
-              (i % 2 ? " md:-translate-y-8" : "")}
-          >
-            <figure class="w-1/3 md:h-48 md:w-auto rounded-none rounded-l-box md:rounded-none md:rounded-t-box">
-              <img
-                class="w-full h-full object-cover"
-                src={value.image}
-                alt={value.title}
-                loading="lazy"
-              />
-            </figure>
-            <div class="card-body w-2/3 md:w-auto">
-              <h2 class="card-title">{value.title}</h2>
-              <p>{value.description}</p>
-            </div>
-          </div>
-        ))}
-      </section>
-      <Wave flip={true} />
-    </>
-  );
-}
-
-  const projects: Project[] = [
-    {
-      title: "Nintendo NES Emulator",
-      description:
-        "Software clone of the iconic NES console in C. Supports real controllers via custom device drivers on Minix3. Video Demo: youtu.be/zcQ03VqHWBw",
-      link: "projects/nes_emulator",
-      type: "Personal Project",
-      icon: "mdi:gamepad-variant",
-    },
-    {
-    title: "Real-Time Energy Monitor",
+const projects: Project[] = [
+  {
+    title: "Nintendo NES Emulator",
     description:
-      "IoT system using ESP8266 & PZEM-004T to monitor energy usage, with data stored in PostgreSQL and visualized in Grafana via a Dockerized backend.",
-    link: "projects/power_monitor", 
-    type: "Personal Project",
-    icon: "fa6-solid:plug-circle-bolt",
-    },
-    {
-      title: "AuctionPeer",
-      description:
-        "A fully functional, deployment-ready auction website built using Laravel and PostgreSQL.",
-      link: "https://github.com/itsnova204/lbaw2451",
-      type: "Academic Project",
-      icon: "skill-icons:laravel-dark",
-    },
-    {
-      title: "OwlSort AI",
-      description:
-        "A fun game tasking players to sort colored birds, featuring various AI algorithms to assist.",
-      link: "https://github.com/itsnova204/OwlSort-AI",
-      type: "Academic Project",
-      icon: "mdi:brain",
-    },
-  ];
+      "A C implementation on MINIX 3 with a 6502 CPU, cycle-accurate execution, PPU rendering, custom drivers, and physical controller input.",
+    link: "projects/nes_emulator",
+    type: "Systems",
+    icon: "mdi:gamepad-variant",
+  },
+  {
+    title: "Production Cluster & Perimeter Network",
+    description:
+      "Virtualization and network infrastructure with Proxmox VE, QEMU/KVM, TrueNAS, VLANs, WireGuard, and Suricata IDS/IPS for 50+ members.",
+    link: "https://github.com/itsnova204",
+    type: "Infrastructure",
+    icon: "mdi:server-network",
+  },
+  {
+    title: "Java Compiler",
+    description:
+      "An end-to-end Java-subset compiler covering parsing, semantic analysis, OLLIR optimization, register allocation, and JVM bytecode generation.",
+    link: "https://github.com/itsnova204",
+    type: "Compilers",
+    icon: "mdi:code-braces",
+  },
+];
 
-
-// --- Experience Component (No Change) ---
 interface ExperienceEntry {
   title: string;
   company: string;
@@ -175,46 +109,59 @@ interface ExperienceEntry {
   location: string;
   description: string;
 }
+
 function Experience() {
   const experiences: ExperienceEntry[] = [
-     {
-      title: "Intern",
+    {
+      title: "Software / Operations Engineering Intern",
+      company: "Google",
+      timePeriod: "Jul 2026 - Sep 2026",
+      location: "Groningen, Netherlands",
+      description:
+        "Engineered an event-driven workflow and milestone platform unifying 60+ data sources, with two-way synchronization, fault-tolerant checkpoints, and diagnostics tooling. Delivered 5,000+ lines of production code and 4,000+ lines of tests.",
+    },
+    {
+      title: "Embedded Systems Researcher",
+      company: "Fraunhofer AICOS",
+      timePeriod: "Jul 2025 - Jul 2026",
+      location: "Porto, Portugal",
+      description:
+        "Architected an indoor real-time location system on Zephyr RTOS and Nordic nRF52 hardware, reaching sub-2m accuracy and tracking 20+ medical assets in a live hospital environment. Built the ingestion platform, REST/WebSocket APIs, and visualizations.",
+    },
+    {
+      title: "Software Engineering Intern",
       company: "Schmitt + Sohn Elevadores",
       timePeriod: "Feb 2025 - May 2025",
       location: "Porto, Portugal",
-      description: "Developing and implementing clustering, TSP, and simulated annealing algorithms within a full-stack application (Angular, Java Spring Boot, PostgreSQL)."
-    },
-    {
-      title: "Intern",
-      company: "BindTuning",
-      timePeriod: "Aug 2022",
-      location: "Porto, Portugal",
-      description: "Developed a system for potential clients to test company features via automatically generated, customized trial websites matching their existing business site."
+      description:
+        "Developed Java Spring Boot backend services and REST APIs backed by PostgreSQL, including database query optimization.",
     },
   ];
   return (
-    <section class="p-4 flex flex-col justify-evenly items-center gap-8 my-8"> {/* Changed items-center to items-start */}
-      <div class="w-full md:w-auto text-center md:text-left mb-4 md:mb-0"> {/* Wrapper for title responsiveness */}
-         <h1 class="text-3xl font-bold text-primary">Work Experience</h1>
-      </div>
-      <div class="flex flex-col gap-4 max-w-md">
-        {experiences.map((experience, i) => (
-          <div class="card bg-base-100 shadow-md" key={i}>
-            <div class="card-body p-4">
+    <section id="experience" class="p-4 flex flex-col items-center gap-8 my-8">
+      <h1 class="text-3xl font-bold text-primary">Work Experience</h1>
+      <div class="flex flex-col gap-4 max-w-3xl w-full">
+        {experiences.map((experience) => (
+          <div class="card bg-base-100 shadow-md" key={experience.company}>
+            <div class="card-body p-5">
               <h2 class="card-title">{experience.title}</h2>
-              <span class="flex items-center gap-2 text-gray-600 text-sm">
-                <Icon icon="majesticons:suitcase" width="1em" height="1em" />
-                {experience.company}
-              </span>
-              <span class="flex items-center gap-2 text-gray-600 text-sm">
-                <Icon icon="tabler:calendar-filled" width="1em" height="1em" />
-                {experience.timePeriod}
-              </span>
-              <span class="flex items-center gap-2 text-gray-600 text-sm">
-                <Icon icon="carbon:location-filled" width="1em" height="1em" />
-                {experience.location}
-              </span>
-              <p class="mt-2 text-sm">{experience.description}</p>
+              <div class="flex flex-wrap gap-x-5 gap-y-1 text-gray-600 text-sm">
+                <span class="flex items-center gap-2">
+                  <Icon icon="majesticons:suitcase" />
+                  {experience.company}
+                </span>
+                <span class="flex items-center gap-2">
+                  <Icon icon="tabler:calendar-filled" />
+                  {experience.timePeriod}
+                </span>
+                <span class="flex items-center gap-2">
+                  <Icon icon="carbon:location-filled" />
+                  {experience.location}
+                </span>
+              </div>
+              <p class="mt-2 text-sm leading-relaxed">
+                {experience.description}
+              </p>
             </div>
           </div>
         ))}
@@ -223,69 +170,67 @@ function Experience() {
   );
 }
 
-
-// --- NEW: Education Component ---
 interface EducationEntry {
   degree: string;
-  institution: string;
   faculty: string;
-  timePeriod?: string;
-  relevantCoursework?: string[]; // Make coursework optional and an array
+  timePeriod: string;
+  average: string;
+  coursework: string[];
 }
-
 function Education() {
-  const educationData: EducationEntry[] = [
+  const education: EducationEntry[] = [
     {
-      degree: "Master in Network and Information Systems Engineering",
-      institution: "University of Porto",
-      faculty: "FCUP - Faculty of Sciences",
-      timePeriod: "Expected: June 2027", // Example with timePeriod
-      relevantCoursework: ["Cryptography", "Network Administration", "Network Security", "Systems Administration"],
+      degree: "MSc Network & Information Systems Engineering",
+      faculty: "University of Porto · Faculty of Sciences",
+      timePeriod: "Expected June 2027",
+      average: "Current average: 14/20",
+      coursework: [
+        "Embedded Systems",
+        "Network Security",
+        "Distributed Systems",
+        "Cloud Systems Administration",
+        "Advanced Computer Networks",
+      ],
     },
     {
-      degree: "Bachelor in Informatics and Computing Engineering",
-      institution: "University of Porto",
-      faculty: "FEUP - Faculty of Engineering",
-      // timePeriod: undefined, // Example: No timePeriod provided or explicitly undefined
-      relevantCoursework: ["Compilers", "Computer Networks", "Design of Algorithms", "Distributed Systems"],
-    }
+      degree: "BSc Informatics & Computing Engineering",
+      faculty: "University of Porto · Faculty of Engineering",
+      timePeriod: "Completed June 2025",
+      average: "Final average: 13/20",
+      coursework: [
+        "Computer Architecture",
+        "Operating Systems",
+        "Computer Networks",
+        "Compilers",
+        "Parallel & Distributed Computing",
+        "Computer Security",
+      ],
+    },
   ];
-
   return (
-    <section class="p-4 my-8">
+    <section class="p-4 my-12">
       <h1 class="text-3xl font-bold text-primary text-center mb-6">
         Education
       </h1>
-      <div class="flex flex-col md:flex-row flex-wrap justify-center items-start gap-6">
-        {educationData.map((edu, index) => (
-          <div class="card w-full md:max-w-md bg-base-100 shadow-md" key={index}>
-            <div class="card-body p-4">
-              <h2 class="card-title text-lg font-semibold">
-                <Icon icon="fa6-solid:graduation-cap" class="w-5 h-5 mr-1 text-primary" />
-                {edu.degree}
+      <div class="flex flex-col md:flex-row justify-center items-stretch gap-6">
+        {education.map((item) => (
+          <div
+            class="card w-full md:max-w-md bg-base-100 shadow-md"
+            key={item.degree}
+          >
+            <div class="card-body p-5">
+              <h2 class="card-title text-lg">
+                <Icon icon="fa6-solid:graduation-cap" class="text-primary" />
+                {item.degree}
               </h2>
-              <p class="text-md font-medium mt-1">{edu.faculty}</p>
-              <p class="text-sm text-gray-600">{edu.institution}</p>
-
-              {/* --- Conditional Rendering Applied Here --- */}
-              {edu.timePeriod && ( // Only render the span if edu.timePeriod is truthy (not undefined, null, or empty string)
-                <span class="flex items-center gap-2 text-gray-600 text-sm mt-1">
-                  <Icon icon="tabler:calendar-filled" width="1em" height="1em" />
-                  {edu.timePeriod}
-                </span>
-              )}
-              {/* --- End of Conditional Rendering --- */}
-
-              {edu.relevantCoursework && (
-                <div class="mt-2">
-                  <h4 class="text-sm font-semibold mb-1">Relevant Coursework:</h4>
-                  <ul class="list-disc list-inside text-sm text-gray-700">
-                    {edu.relevantCoursework.map((course, i) => (
-                      <li key={i}>{course}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
+              <p class="font-medium mt-1">{item.faculty}</p>
+              <p class="text-sm text-gray-600">
+                {item.timePeriod} · {item.average}
+              </p>
+              <p class="text-sm mt-3">
+                <span class="font-semibold">Relevant coursework:</span>{" "}
+                {item.coursework.join(" · ")}
+              </p>
             </div>
           </div>
         ))}
@@ -294,177 +239,54 @@ function Education() {
   );
 }
 
-// --- NEW: Student Groups Component ---
-interface GroupMembership {
-  groupName: string;
-  organization?: string; // Optional organization (like IEEE)
-  role: string;
-  timePeriod: string;
-  description: string;
-  award?: string; // Optional award
-}
-
-function StudentGroups() {
-  const groupsData: GroupMembership[] = [
-    {
-      groupName: "IEEE UP SB Computer Society",
-      organization: "Institute of Electrical and Electronics Engineers - UP Student Branch",
-      role: "Member",
-      timePeriod: "Mar 2025 - Ongoing",
-      description: "Currently leading the development of a scalable server cluster and secure network infrastructure using Proxmox and Linux routing to host internal services, improving team collaboration and resource efficiency. Also presented a workshop on C programming fundamentals to the public.",
-      iconUrl: "/img/groups/ieee_icon.jpg",
-    },
-    {
-      groupName: "Nucleus of Computer Graphics and Multimedia",
-      role: "Member",
-      timePeriod: "Sep 2023 - Oct 2024",
-      description: "Participated in organizing events, workshops, and collaborative projects focused on enhancing students' understanding of visual computing and interactive media.",
-      iconUrl: "/img/groups/ncgm_icon.jpg", // Example: Path to another custom PNG
-    },
-    {
-      groupName: "Nucleus of Computer Science",
-      role: "Member",
-      timePeriod: "Mar 2021 - Dec 2022",
-      description: "Participated in organizing events, workshops, and collaborative projects focused on increasing students' excitement in computer science related topics.",
-      iconUrl: "/img/groups/nucc_icon.jpg", 
-    },
-    {
-      groupName: "Club of Informatics",
-      role: "President",
-      timePeriod: "Apr 2016 - May 2019",
-      description: "Led a Highschool club focused on bringing students excited about computer science and electronic engineering together to create events and participate in competitions.",
-      award: "3rd Place at the national engineering competition Ilídio Pinho Foundation “Ciência na escola” award.",
-      iconUrl: "/img/groups/cdi_icon.png",
-    },
-  ];
-
+function Leadership() {
   return (
-    <section class="p-4 my-8 bg-base-200 py-8">
-      <h1 class="text-3xl font-bold text-primary text-center mb-6">
-        Student Groups & Activities
-      </h1>
-      <div class="flex flex-col gap-4 max-w-3xl mx-auto">
-        {groupsData.map((group, index) => (
-           <div class="card card-compact bg-base-100 shadow" key={index}>
-             <div class="card-body p-4">
-               <h2 class="card-title text-md font-semibold flex items-center"> {/* Added flex items-center for alignment */}
-                 {group.iconUrl ? (
-                   <img
-                     src={group.iconUrl}
-                     alt={`${group.groupName} logo`}
-                     class="w-10 h-10 mr-1 object-contain" // Matched size, added object-contain for aspect ratio
-                   />
-                 ) : (
-                   <Icon icon="mdi:account-group" class="w-5 h-5 mr-1 text-primary shrink-0" /> // Added shrink-0
-                 )}
-                 <span>{group.groupName}</span> {/* Wrapped text in span for better flex control */}
-                 {group.organization && <span class="text-sm font-normal text-gray-500 ml-1">{group.organization}</span>}
-                 <span class="badge badge-outline badge-sm ml-auto">{group.role}</span>
-               </h2>
-               <span class="flex items-center gap-2 text-gray-600 text-xs mt-1">
-                 <Icon icon="tabler:calendar-filled" width="0.8em" height="0.8em" />
-                 {group.timePeriod}
-               </span>
-               <p class="text-sm mt-2">{group.description}</p>
-               {group.award && (
-                 <div class="mt-2 flex items-center gap-2 text-sm text-amber-400 font-medium">
-                    <Icon icon="mdi:trophy-award" class="w-4 h-4" />
-                    <span>{group.award}</span>
-                 </div>
-               )}
-             </div>
-           </div>
-        ))}
+    <section class="p-4 my-12 bg-base-200 py-10 rounded-box">
+      <div class="max-w-3xl mx-auto">
+        <h1 class="text-3xl font-bold text-primary text-center mb-5">
+          Leadership
+        </h1>
+        <div class="card bg-base-100 shadow">
+          <div class="card-body p-5">
+            <h2 class="card-title">
+              <Icon icon="mdi:account-group" class="text-primary" />Computer
+              Society Chair · IEEE UP Student Branch
+            </h2>
+            <p class="text-sm text-gray-600">
+              Mar 2025 - Present · Porto, Portugal
+            </p>
+            <p class="text-sm mt-2 leading-relaxed">
+              As Computer Society Chair, I lead infrastructure initiatives with
+              IEEE Portugal IT Systems, including a Proxmox/TrueNAS cluster
+              supporting 50+ members. I also organize technical workshops and
+              hands-on sessions for 40+ students.
+            </p>
+          </div>
+        </div>
       </div>
     </section>
   );
 }
 
-
-// --- NEW: Volunteering Component ---
-interface VolunteerRole {
-  organization: string;
-  timePeriod: string;
-  description: string;
-}
-
-function Volunteering() {
-  const volunteeringData: VolunteerRole[] = [
-    {
-      organization: "Code Children",
-      timePeriod: "Early 2020",
-      description: "Taught coding fundamentals to kindergarten students using visual programming tools like ScratchJr.",
-    },
-    // Add more volunteer roles here if applicable
-  ];
-
-   if (volunteeringData.length === 0) return null; // Don't render section if no data
-
-  return (
-    <section class="p-4 my-8">
-      <h1 class="text-3xl font-bold text-primary text-center mb-6">
-        Volunteering
-      </h1>
-      <div class="flex flex-col gap-4 max-w-xl mx-auto"> {/* Centered content */}
-        {volunteeringData.map((role, index) => (
-           <div class="card card-compact bg-base-100 shadow" key={index}>
-             <div class="card-body p-4">
-               <h2 class="card-title text-md font-semibold">
-                 <Icon icon="mdi:heart-outline" class="w-5 h-5 mr-1 text-secondary" /> {/* Using secondary color */}
-                 {role.organization}
-               </h2>
-               <span class="flex items-center gap-2 text-gray-600 text-xs mt-1">
-                 <Icon icon="tabler:calendar-filled" width="0.8em" height="0.8em" />
-                 {role.timePeriod}
-               </span>
-               <p class="text-sm mt-2">{role.description}</p>
-             </div>
-           </div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-
-// --- Technologies Component (No Change) ---
 function Technologies() {
-  const technologies = [
-    "devicon:c", "devicon:cplusplus", "logos:java", "logos:javascript", "logos:php",
-    "devicon:haskell", "logos:python", "logos:bash-icon", "logos:git-icon", "devicon:linux",
-    "logos:microsoft-azure", "mdi:pipe", "simple-icons:cisco", "mdi:router-network",
-    "mdi:firewall", "logos:angular-icon", "logos:spring-icon", "logos:postgresql",
-    "skill-icons:docker", "simple-icons:espressif", "devicon:arduino",
-    "simple-icons:flask", "simple-icons:grafana",   "devicon:json", "mdi:serial-port", 
-    "simple-icons:platformio"
-  ];
-  const techTooltips: { [key: string]: string } = {
-  "devicon:c": "C",
-  "devicon:cplusplus": "C++",
-  "logos:java": "Java",
-  "logos:javascript": "JavaScript",
-  "logos:php": "PHP",
-  "devicon:haskell": "Haskell",
-  "logos:python": "Python",
-  "logos:bash-icon": "Bash",
-  "logos:git-icon": "Git",
-  "devicon:linux": "Linux",
-  "logos:microsoft-azure": "Microsoft Azure",
-  "mdi:pipe": "CI/CD Pipelines",
-  "simple-icons:cisco": "Cisco IOS",
-  "mdi:router-network": "Networking & Routing (OSPF, VLAN)",
-  "mdi:firewall": "Firewalls",
-  "logos:angular-icon": "Angular",
-  "logos:spring-icon": "Java Spring Boot",
-  "logos:postgresql": "PostgreSQL",
-  "skill-icons:docker": "Docker & Docker Compose",
-  "simple-icons:espressif": "ESP8266 Microcontroller",
-  "devicon:arduino": "Arduino Framework",
-  "simple-icons:flask": "Flask (Python Web Framework)",
-  "simple-icons:grafana": "Grafana (Data Visualization)",
-  "devicon:json": "JSON (Data Format)",
-  "mdi:serial-port": "Serial Communication / Modbus",
-  "simple-icons:platformio": "PlatformIO (Embedded Dev Environment)"
+  const technologies: Record<string, string> = {
+    "devicon:c": "C",
+    "devicon:cplusplus": "C++",
+    "logos:python": "Python",
+    "logos:java": "Java",
+    "logos:javascript": "JavaScript",
+    "logos:bash-icon": "Bash",
+    "devicon:linux": "Linux",
+    "skill-icons:docker": "Docker",
+    "mdi:kubernetes": "Kubernetes",
+    "mdi:terraform": "Terraform",
+    "logos:spring-icon": "Java Spring Boot",
+    "logos:postgresql": "PostgreSQL",
+    "mdi:bluetooth": "BLE",
+    "mdi:chip": "Zephyr RTOS · Nordic nRF52 · ESP32",
+    "mdi:network": "TCP/IP · VLANs · WireGuard",
+    "mdi:shield-check": "OPNsense · Suricata IDS/IPS",
+    "mdi:code-braces": "WebGL · GLSL · 3D rendering",
   };
   return (
     <section class="my-16">
@@ -472,11 +294,11 @@ function Technologies() {
         Skills & Technologies
       </h1>
       <div class="p-4 flex justify-center items-center flex-wrap gap-6 md:gap-8">
-        {technologies.map((technology) => (
-          <div key={technology} class="tooltip" data-tip={techTooltips[technology] || 'Technology'}>
+        {Object.entries(technologies).map(([icon, label]) => (
+          <div key={icon} class="tooltip" data-tip={label} aria-label={label}>
             <Icon
               class="w-10 h-10 md:w-12 md:h-12 text-gray-700 hover:text-primary transition-colors"
-              icon={technology}
+              icon={icon}
               width="none"
               height="none"
             />
@@ -487,19 +309,15 @@ function Technologies() {
   );
 }
 
-// --- Main Home Component ---
 export default function Home() {
   return (
     <>
       <Hero />
-      
       <Projects projects={projects} />
       <Technologies />
       <Experience />
-      <Education />      {/* Added Education */}
-      <StudentGroups />  {/* Added Student Groups */}
-      {/*<Values />*/}
-      <Volunteering />   {/* Added Volunteering */}
+      <Education />
+      <Leadership />
     </>
   );
 }

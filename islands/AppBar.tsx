@@ -1,10 +1,6 @@
-import { Icon, loadIcon } from "@iconify-icon/react";
+import { Icon } from "@iconify-icon/react";
 import axios from "axios";
 import { useEffect, useState } from "preact/hooks";
-
-// preload icons
-loadIcon("fa6-brands:dev");
-loadIcon("ri:dice-line");
 
 function toggleTheme(themes: string[]) {
   const html = document.querySelector("html");

@@ -1,0 +1,8 @@
+.git
+.gitignore
+.deno
+node_modules
+_fresh
+Dockerfile
+README.md
+*.log

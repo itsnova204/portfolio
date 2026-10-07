@@ -8,6 +8,7 @@ import * as $api_joke from "./routes/api/joke.ts";
 import * as $api_themes_index from "./routes/api/themes/index.ts";
 import * as $index from "./routes/index.tsx";
 import * as $projects_nes_emulator from "./routes/projects/nes_emulator.tsx";
+import * as $projects_power_monitor from "./routes/projects/power_monitor.tsx";
 import * as $AppBar from "./islands/AppBar.tsx";
 import * as $Projects from "./islands/Projects.tsx";
 import * as $SpinningModel from "./islands/SpinningModel.tsx";
@@ -22,6 +23,7 @@ const manifest = {
     "./routes/api/themes/index.ts": $api_themes_index,
     "./routes/index.tsx": $index,
     "./routes/projects/nes_emulator.tsx": $projects_nes_emulator,
+    "./routes/projects/power_monitor.tsx": $projects_power_monitor,
   },
   islands: {
     "./islands/AppBar.tsx": $AppBar,

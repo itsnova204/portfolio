@@ -9,15 +9,16 @@ function MetaTags(
   { credentials, url }: { credentials: { name: string }; url: string },
 ) {
   // --- Updated Metadata Content ---
-  const siteTitle = `${credentials.name} - Network & Systems Engineer Portfolio`;
-  const siteDescription = `Explore ${credentials.name}'s portfolio showcasing projects in network engineering, systems administration, and software development. Expertise in C/C++, Linux, Cisco IOS, networking protocols, and full-stack technologies.`;
+  const siteTitle = `${credentials.name} - Systems & Embedded Engineer`;
+  const siteDescription =
+    `Portfolio of ${credentials.name}, a systems and embedded engineer working across distributed systems, real-time location, infrastructure, and networks.`;
   const imageUrl = `${url}meta-image.webp`; // Ensure this image exists in your static folder
 
   return (
     <>
       {/* Primary Meta Tags */}
       {/* Use a slightly more concise title for the <title> tag itself */}
-      <title>{credentials.name} | Network & Systems Engineer</title>
+      <title>{credentials.name} | Systems & Embedded Engineer</title>
       <meta name="title" content={siteTitle} />
       <meta name="description" content={siteDescription} />
 
@@ -36,7 +37,10 @@ function MetaTags(
       <meta property="twitter:image" content={imageUrl} />
 
       {/* Optional: Add relevant keywords */}
-      <meta name="keywords" content="Tiago Aleixo, Network Engineer, Systems Engineer, C++, C, Linux, Cisco IOS, Networking,   Portfolio, Software Development, Porto, Portugal" />
+      <meta
+        name="keywords"
+        content="Tiago Aleixo, Systems Engineer, Embedded Systems, Network Engineering, C++, C, Linux, Zephyr RTOS, Porto, Portugal"
+      />
 
       {/* Meta Tags Generated with https://metatags.io */}
     </>
@@ -65,30 +69,43 @@ export default function App({ Component }: PageProps) {
   const url = "https://tiagoaleixo.dev/";
 
   return (
-    <html lang="en" data-theme="dark"> {/* Optional: Set a default theme (e.g., dark) if using DaisyUI themes */}
+    <html lang="en" data-theme="dark">
+      {/* Optional: Set a default theme (e.g., dark) if using DaisyUI themes */}
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <MetaTags credentials={credentials} url={url} />
         {/* The <title> tag inside MetaTags will be used, this one is slightly redundant but okay */}
         {/* <title>Portfolio | {credentials.name}</title> */}
-        <link rel="icon" href="/favicon.ico" sizes="any" /> {/* Optional: Add favicon link */}
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" /> {/* Optional: Add Apple touch icon */}
+        <link rel="icon" href="/favicon.ico" sizes="any" />{" "}
+        {/* Optional: Add favicon link */}
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />{" "}
+        {/* Optional: Add Apple touch icon */}
         <link rel="stylesheet" href="/styles.css" />
       </head>
-      <body class="min-h-screen flex flex-col max-w-screen-xl mx-auto px-2"> {/* Added horizontal padding */}
-        <header class="sticky top-0 z-50"> {/* Made AppBar sticky */}
+      <body class="min-h-screen flex flex-col max-w-screen-xl mx-auto px-2">
+        {/* Added horizontal padding */}
+        <header class="sticky top-0 z-50">
+          {/* Made AppBar sticky */}
           <AppBar />
         </header>
-        <main class="flex-grow"> {/* Ensure main takes up available space */}
+        <main class="flex-grow">
+          {/* Ensure main takes up available space */}
           <Component />
         </main>
         <footer class="mt-auto footer w-auto m-2 p-4 bg-neutral text-neutral-content rounded-lg">
-          <aside class="items-center grid-flow-col"> {/* Use grid-flow-col for alignment */}
-             {/* Updated Footer Attribution */}
-            <p>MIT licensed © {new Date().getFullYear()} - Template by <a href = "https://github.com/michael-pfister/deno-portfolio">Michael</a>, configured and expanded by {credentials.name}</p>
+          <aside class="items-center grid-flow-col">
+            {/* Use grid-flow-col for alignment */}
+            {/* Updated Footer Attribution */}
+            <p>
+              MIT licensed © {new Date().getFullYear()} - Template by{" "}
+              <a href="https://github.com/michael-pfister/deno-portfolio">
+                Michael
+              </a>, configured and expanded by {credentials.name}
+            </p>
             {/* Keep 3D Art credit if the model is used */}
-            <span class="text-xs text-neutral-content/70 ml-4"> {/* Slightly dimmed text */}
+            <span class="text-xs text-neutral-content/70 ml-4">
+              {/* Slightly dimmed text */}
               3D Art by{" "}
               <a
                 class="underline hover:text-primary" // Added hover effect
