@@ -10,6 +10,7 @@ import * as $index from "./routes/index.tsx";
 import * as $projects_nes_emulator from "./routes/projects/nes_emulator.tsx";
 import * as $projects_power_monitor from "./routes/projects/power_monitor.tsx";
 import * as $AppBar from "./islands/AppBar.tsx";
+import * as $NesEmulator from "./islands/NesEmulator.tsx";
 import * as $Projects from "./islands/Projects.tsx";
 import * as $SpinningModel from "./islands/SpinningModel.tsx";
 import * as $TypingAnimation from "./islands/TypingAnimation.tsx";
@@ -27,6 +28,7 @@ const manifest = {
   },
   islands: {
     "./islands/AppBar.tsx": $AppBar,
+    "./islands/NesEmulator.tsx": $NesEmulator,
     "./islands/Projects.tsx": $Projects,
     "./islands/SpinningModel.tsx": $SpinningModel,
     "./islands/TypingAnimation.tsx": $TypingAnimation,

@@ -1,5 +1,6 @@
 import { Icon } from "@iconify-icon/react";
 import Projects from "../../islands/Projects.tsx";
+import NesEmulator from "../../islands/NesEmulator.tsx";
 
 const projects: Project[] = [
   {
@@ -34,6 +35,7 @@ export default function NESEmulatorBlog() {
           <h2 class="text-3xl font-bold text-secondary">Table of Contents</h2>
           <ul class="list-disc list-inside">
             <li><a href="#introduction" class="text-blue-600 hover:underline">Introduction</a></li>
+            <li><a href="#play" class="text-blue-600 hover:underline">Play It in Your Browser</a></li>
             <li><a href="#architecture" class="text-blue-600 hover:underline">Understanding the NES Architecture</a></li>
             <li><a href="#cpu-emulation" class="text-blue-600 hover:underline">CPU Emulation</a></li>
             <li><a href="#graphics-rendering" class="text-blue-600 hover:underline">Graphics Rendering</a></li>
@@ -59,6 +61,19 @@ export default function NESEmulatorBlog() {
         <p>
           Developing an NES emulator was a challenging yet rewarding experience. Our goal was to replicate the functionality of the iconic Nintendo Entertainment System (NES) inside Minix using our own device drivers for the timer, mouse, keyboard, graphics card, and even UART. The project was written entirely in C and supports real physical controllers.
         </p>
+      </div>
+
+      {/* Live emulator */}
+      <div class="max-w-6xl mx-auto mb-12">
+        <div class="prose max-w-4xl mx-auto">
+          <h2 id="play" class="text-3xl font-bold text-secondary">Play It in Your Browser</h2>
+          <p>
+            The emulator core (CPU, PPU, bus and cartridge code) was written to be portable, so the same C source that ran on Minix is compiled here to WebAssembly. The Minix drivers are swapped for the browser: a canvas instead of the VBE framebuffer, and keyboard, touch or gamepad instead of the i8042 and UART controller bridge. Try it with one of these free and open-source homebrew games.
+          </p>
+        </div>
+        <div class="mt-6">
+          <NesEmulator />
+        </div>
       </div>
 
       {/* NES Architecture */}
